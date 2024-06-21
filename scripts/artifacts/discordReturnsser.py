@@ -14,7 +14,7 @@ def get_discordReturnsser(files_found, report_folder, seeker, wrap_text, time_of
         
         if file_found.endswith('.json'):
             data_list_dm =[]
-            with open(file_found, 'r', errors='backslashreplace') as f:
+            with open(file_found, 'r', encoding='utf-8', errors='backslashreplace') as f:
                 data = json.load(f)
                 
             id = data.get('id','')
