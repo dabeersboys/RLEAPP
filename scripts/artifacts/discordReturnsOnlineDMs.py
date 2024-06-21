@@ -22,7 +22,7 @@ def get_discordReturnsdmsOnline(files_found, report_folder, seeker, wrap_text, t
         
         if file_found.endswith('.csv'):
             
-            with open(file_found, 'r', errors='backslashreplace') as f:
+            with open(file_found, 'r', encoding='utf-8', errors='backslashreplace') as f:
                 reader = csv.reader(f,delimiter=',')
                 ncol = len(next(reader)) # Read first line and count columns
                 f.seek(0)
