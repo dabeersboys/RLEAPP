@@ -8,7 +8,6 @@ from scripts.ilapfuncs import logfunc, tsv, timeline, is_platform_windows, media
 
 def get_discordReturnsdms(files_found, report_folder, seeker, wrap_text, time_offset):
 
-
     for file_found in files_found:
         file_found = str(file_found)
     
@@ -17,8 +16,8 @@ def get_discordReturnsdms(files_found, report_folder, seeker, wrap_text, time_of
         
         if not file_found.startswith('._'):
             if file_found.endswith('.csv'):
-                data_list_dm =[]
-                with open(file_found, 'r', errors='backslashreplace') as f:
+                data_list_dm = []
+                with open(file_found, 'r', encoding='utf-8', errors='backslashreplace') as f:
                     for line in f:
                         delimited = csv.reader(f, delimiter=',')
                         for item in delimited:
@@ -46,7 +45,7 @@ def get_discordReturnsdms(files_found, report_folder, seeker, wrap_text, time_of
                                         thumb = media_to_html(attachmentidentifier, files_found, report_folder)
                                         counter = counter + 1
                                         agregator = agregator + f'<td>{thumb}</td>'
-                                        #hacer uno que no tenga html
+                                        # hacer uno que no tenga html
                                         if counter == 2:
                                             counter = 0
                                             agregator = agregator + ('</tr>')
@@ -59,28 +58,27 @@ def get_discordReturnsdms(files_found, report_folder, seeker, wrap_text, time_of
                                     attachmentidentifier = f"{media[-2]}"
                                     agregator = media_to_html(attachmentidentifier, files_found, report_folder)
                             
-                            data_list_dm.append((timestamp,username,contents,agregator,id,channelid,authorid))
+                            data_list_dm.append((timestamp, username, contents, agregator, id, channelid, authorid))
                             
-        
                 if data_list_dm:
                     report = ArtifactHtmlReport(f'Discord - Direct Messages ')
                     report.start_artifact_report(report_folder, f'Discord - Direct Messages - {csvname}')
                     report.add_script()
-                    data_headers = ('Timestamp','Username','Contents','Media','ID','Channel ID','Author ID')
+                    data_headers = ('Timestamp', 'Username', 'Contents', 'Media', 'ID', 'Channel ID', 'Author ID')
                     report.write_artifact_data_table(data_headers, data_list_dm, file_found, html_no_escape=['Media'])
                     report.end_artifact_report()
                     
                     tsvname = f'Discord - Direct Messages - {csvname}'
                     tsv(report_folder, data_headers, data_list_dm, tsvname)
                     
-                    tlactivity = f'Discord -Direct Messages - {csvname}'
+                    tlactivity = f'Discord - Direct Messages - {csvname}'
                     timeline(report_folder, tlactivity, data_list_dm, data_headers)
                 else:
-                    logfunc(f'Discord - Direct Messages - {csvname}')
+                    logfunc(f'No data found for Discord - Direct Messages - {csvname}')
                 
 __artifacts__ = {
-        "discordReturnsdms": (
-            "Discord Returns",
-            ('*/attachments/*.*', '*/messages/dms/*.csv'),
-            get_discordReturnsdms)
+    "discordReturnsdms": (
+        "Discord Returns",
+        ('*/attachments/*.*', '*/messages/dms/*.csv'),
+        get_discordReturnsdms)
 }
