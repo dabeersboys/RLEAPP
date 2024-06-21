@@ -20,7 +20,7 @@ def get_discordReturnsOnlineServers(files_found, report_folder, seeker, wrap_tex
         
         if file_found.endswith('.csv'):
             data_list_dm =[]
-            with open(file_found, 'r', errors='backslashreplace') as f:
+            with open(file_found, 'r', encoding='utf-8', errors='backslashreplace') as f:
                 for line in f:
                     delimited = csv.reader(f, delimiter=',')
                     for item in delimited:
